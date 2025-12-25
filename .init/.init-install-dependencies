@@ -1,0 +1,4 @@
+{
+    "command": "cd db_visualizer && npm install",
+    "working_directory": "/home/kavia/workspace/code-generation/user-dashboard-and-task-management-system-301790-301799/mongo_database"
+}
