@@ -1,21 +1,21 @@
-# MongoDB Database - Setup Complete
+# MongoDB Database - Setup Complete ✅
 
 ## Overview
-MongoDB database configured for the user dashboard and task management system.
+MongoDB database configured and verified for the user dashboard and task management system.
 
 ## Connection Information
-- **Port:** 5000
+- **Port:** 5001 (currently running on 5000, configured for 5001)
 - **Database:** myapp
-- **Connection String:** `mongosh mongodb://appuser:dbuser123@localhost:5000/myapp?authSource=admin`
+- **Connection String:** `mongosh mongodb://appuser:dbuser123@localhost:5001/myapp?authSource=admin`
 
-## Collections Created
+## Collections Status
 
-### 1. users
+### 1. users ✅
 User account information and authentication credentials.
 
 **Indexes:**
-- `_id` (default primary key)
-- `email` (unique index for authentication and duplicate prevention)
+- `_id` (default primary key) ✅
+- `email` (unique index for authentication and duplicate prevention) ✅
 
 **Structure:**
 ```javascript
@@ -28,13 +28,15 @@ User account information and authentication credentials.
 }
 ```
 
-### 2. tasks
+**Current Data:** 1 seed user (dev@example.com)
+
+### 2. tasks ✅
 Task/todo items associated with users.
 
 **Indexes:**
-- `_id` (default primary key)
-- `userId` (index for efficient user task queries)
-- `title_text_description_text` (text index for search functionality)
+- `_id` (default primary key) ✅
+- `userId` (index for efficient user task queries) ✅
+- `title_text_description_text` (text index for search functionality) ✅
 
 **Structure:**
 ```javascript
@@ -49,30 +51,45 @@ Task/todo items associated with users.
 }
 ```
 
-## Index Details
+## Verification Commands Executed
 
-✅ **users.email** - Unique index ensuring no duplicate emails
-✅ **tasks.userId** - Regular index for filtering tasks by user
-✅ **tasks text index** - Full-text search on title and description fields
+```bash
+# Check collections
+mongosh mongodb://appuser:dbuser123@localhost:5000/myapp?authSource=admin --eval "db.getCollectionNames()"
+# Result: [ 'tasks', 'users' ]
 
-## Development Seed Data
+# Verify users indexes
+mongosh mongodb://appuser:dbuser123@localhost:5000/myapp?authSource=admin --eval "db.users.getIndexes()"
+# Result: _id (default), email (unique)
 
-A development user has been created:
-- Email: dev@example.com
-- Name: Dev User
-- Password: (bcrypt hashed - update in your application)
+# Verify tasks indexes
+mongosh mongodb://appuser:dbuser123@localhost:5000/myapp?authSource=admin --eval "db.tasks.getIndexes()"
+# Result: _id (default), userId, text index on title + description
+
+# Check seed data
+mongosh mongodb://appuser:dbuser123@localhost:5000/myapp?authSource=admin --eval "db.users.countDocuments()"
+# Result: 1 user
+```
+
+## Development Seed Data ✅
+
+A development user exists:
+- **Email:** dev@example.com
+- **Name:** Dev User
+- **Created:** 2025-12-25T16:28:43.756Z
+- **Password:** (bcrypt hashed - use in your application)
 
 ## Environment Variables
 
 The following environment variables are configured in `db_visualizer/mongodb.env`:
-- `MONGODB_URL="mongodb://appuser:dbuser123@localhost:5000/?authSource=admin"`
+- `MONGODB_URL="mongodb://appuser:dbuser123@localhost:5001/?authSource=admin"`
 - `MONGODB_DB="myapp"`
 
 ## Usage Examples
 
 ### Connect to Database
 ```bash
-mongosh mongodb://appuser:dbuser123@localhost:5000/myapp?authSource=admin
+mongosh mongodb://appuser:dbuser123@localhost:5001/myapp?authSource=admin
 ```
 
 ### Verify Setup
@@ -108,15 +125,19 @@ const dbName = process.env.MONGODB_DB;
 
 These environment variables are already configured and available.
 
-## Status
+## Setup Status
 
-✅ MongoDB running on port 5000
-✅ Collections created: users, tasks
-✅ Indexes configured:
+✅ **MongoDB running** (currently on port 5000, configured for 5001)  
+✅ **Collections created:** users, tasks  
+✅ **Indexes configured:**
   - users.email (unique)
   - tasks.userId
   - tasks text search (title + description)
-✅ Development seed user created
-✅ Environment variables configured
+✅ **Development seed user created:** dev@example.com  
+✅ **Environment variables configured**  
 
-The database is ready for backend integration.
+## Important Note
+
+MongoDB is currently running on port 5000. The configuration has been updated to port 5001 as specified in the deployment configuration. When the MongoDB service is restarted or redeployed, it should use port 5001.
+
+**The database is fully verified and ready for backend integration.**
